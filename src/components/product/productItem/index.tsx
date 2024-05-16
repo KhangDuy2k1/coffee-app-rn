@@ -1,17 +1,44 @@
 import {Text, View, StyleSheet, Image, TouchableOpacity} from "react-native";
 import { useNavigation } from '@react-navigation/native';
 import OctionsIcon from "react-native-vector-icons/Octicons"
-import { Rating, AirbnbRating } from 'react-native-ratings';
+import { Rating } from 'react-native-ratings';
 import IconAnt from "react-native-vector-icons/AntDesign"
-export const ProductItem = ({product, page} ) => { 
+import { likeCoffee } from "../../../apis/like-coffee";
+import { useState } from "react";
+import { unLikeCoffee } from "../../../apis/unlike-coffee";
+export const ProductItem = ({product, page, listCoffeeLiked} ) => { 
     const navigations = useNavigation();
-    const handleNextProductScreen = () => {
-        navigations.navigate('product')
+    const [liked, setLiked] = useState<boolean>(false);
+    const [unlike, setUnlike] = useState<boolean>(true);
+
+    const checkCoffee = (): boolean => {
+        return listCoffeeLiked.includes(product._id) || liked;
     }
+
+    const checkCoffeeAreadyLiked = (error: any): boolean => {
+        return error.response.data.message === "coffee aready liked";
+    }
+
+    const handleNextProductScreen = async(): Promise<any> => {
+        try {
+            await likeCoffee(product._id);
+            setLiked(true);  
+        } catch (error: any) {
+            if(checkCoffeeAreadyLiked(error)) {
+                try {
+                    await unLikeCoffee(product._id);
+                    setUnlike(false);
+                } catch (error) {
+                    console.log(error);
+                }
+            };
+        }
+    }
+
     return (
         <TouchableOpacity
         onPress={() => {
-            navigations.navigate("product")
+            navigations.navigate("product", { product: product});
         }}
         >
         <View  
@@ -26,6 +53,7 @@ export const ProductItem = ({product, page} ) => {
              />
              <View style = {styles.itemWrap}>
                 <Text 
+                numberOfLines={1}
                 style = {styles.nameProduct}
                 >
                 {product.name}
@@ -42,25 +70,31 @@ export const ProductItem = ({product, page} ) => {
                 />
              </View>
            {
-            page === "home" && <OctionsIcon 
+            page === "home" 
+            && 
+            <OctionsIcon 
             onPress={handleNextProductScreen}
             name="heart-fill"
-            style = {styles.favoriteIcon}
+            style = {
+                checkCoffee() && unlike
+                ?
+                styles.favoriteIconLiked
+                :
+                styles.fivouriteIcon
+            }
             />
            }
            {
-            page === "favourite" && 
+             page === "favourite" && 
             <IconAnt 
             name="pluscircleo"
             style= {styles.addIcon}
             />
-           }
-           {
-            
-           }
+            }
+          {
+        }
         </View>
         </TouchableOpacity>
-        
     )
 } 
 const styles = StyleSheet.create({
@@ -74,7 +108,10 @@ const styles = StyleSheet.create({
         height: 90,
         backgroundColor: "#fff",
     },
-    itemWrap: { 
+    itemWrap: {
+        width: 180,
+        display: "flex",
+        alignItems: "flex-start",
         marginLeft: 20,
     },
     price: {
@@ -88,12 +125,18 @@ const styles = StyleSheet.create({
     },
     rating: {
         marginTop: 12, 
-        marginRight: 100
     },
-    favoriteIcon : {
+    favoriteIconLiked : {
         marginTop: 20,
         marginLeft: 30,
         color: "#ffb84d",
+        fontSize: 20
+    },
+    fivouriteIcon: {
+        marginTop: 20,
+        marginLeft: 30,
+        color: "black",
+        opacity: 0.3,
         fontSize: 20
     },
     addIcon: { 

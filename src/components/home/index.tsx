@@ -1,13 +1,21 @@
 import {StyleSheet, Text, View, Image} from 'react-native';
 import IconMaterial from 'react-native-vector-icons/MaterialCommunityIcons';
 import Icon from 'react-native-vector-icons/Ionicons';
-
+import { useNavigationState } from '@react-navigation/native';
 import { Slides } from './slides';
 import { Search } from './search';
 import { Category } from './category';
 import { ProductList } from './productList';
+import { useEffect } from 'react';
+import { useDispatch } from 'react-redux';
+import { setTextSearch } from '../../commons/redux/slices/product';
 const uri: string = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQo7d4jIJ7dzrjigXP-QTN1H1rReftfbJtsiz4q-i63fy2Z5AOdWo7svkXcWsT8gGtibsM&usqp=CAU"
-export const Home = ({navigation}) => {
+export const Home = () => {
+    const dispatch = useDispatch();
+    const navigationState = useNavigationState(state => state);
+    useEffect(() => {
+        dispatch(setTextSearch(""));
+    }, [navigationState])
     return (
             <View style = {styles.homeContainer}>
                 <View style = {styles.headerContainer}>
@@ -49,8 +57,7 @@ export const Home = ({navigation}) => {
                 </View>
                 <View>
                     <Search/>
-                    {/* <Category/> */}
-                    <ProductList navigation = {navigation} />
+                    <ProductList />
                 </View>
                   
             </View>    

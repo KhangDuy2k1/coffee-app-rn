@@ -4,18 +4,46 @@ import { NavigationContainer } from "@react-navigation/native";
 import { LoginScreen } from "./screens/login";
 import { RegisterScreen } from "./screens/register";
 import { HomeScreen } from "./screens/home";
-import { getToken } from "./components/common/helpers/asyncFunc";
+import { getToken } from "./commons/helpers/asyncFunc";
 import { useEffect, useState } from "react";
 import { ProfileScreen } from "./screens/profile";
 import { FavouriteScreen } from "./screens/favourite";
 import { OrderScreen } from "./screens/order";
-import { ProductScreen } from "./screens/product";
+import { ProductScreen } from "./screens/productDetail";
 import Icon from "react-native-vector-icons/FontAwesome"
 import IonIcon from "react-native-vector-icons/Ionicons"
 import IconOcticons from "react-native-vector-icons/Octicons"
-import IconFeather from "react-native-vector-icons/Feather"
+import { AddressListScreen } from "./screens/address";
+import { View, Text } from "react-native";
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
+
+
+const ProductStack = ({route}) => { 
+    const { product } = route.params
+    return (
+        <Stack.Navigator>
+            <Stack.Screen 
+            name = "sản phẩm" 
+            component={ProductScreen}
+            options={{
+                headerShown: false
+            }}
+            initialParams={{product}}
+            />
+
+            <Stack.Screen 
+            name = "addressList" 
+            component={AddressListScreen}
+            options={{
+                headerTitle: "địa chỉ",
+                headerShown: true
+            }}
+            />
+        </Stack.Navigator>
+    )
+}
+
 const dataTab = [
     {
         name: "Home",
@@ -37,8 +65,8 @@ const dataTab = [
     },
     {
         name: "product",
-        component: ProductScreen,
-        headerTitle: "Yêu thích",
+        component: ProductStack,
+        headerTitle: "Chi tiết sản phẩm",
     }, 
     {
         name: "order",
@@ -57,32 +85,34 @@ const dataTab = [
         icon: ({ color, size }) => (
             <IonIcon name="person-circle" color={color} size={30} />
         ),
-    }
+    },
 ]
 const HomeTab = () => {
     return (   
             <Tab.Navigator
            
             screenOptions={{
-                tabBarActiveTintColor: '#ff9933', // Màu của tab đang được chọn
-                tabBarInactiveTintColor: 'gray', // Màu của tab không được chọn
+                tabBarActiveTintColor: '#ff9933',
+                tabBarInactiveTintColor: 'gray',
               }}
             >
                 {
-                    dataTab.map((data: any) => {
-                        if(data.name === "product") {
+                    dataTab.map((data: any, index) => {
+                        if(data.name === "product" || data.name === "addressList" ) {
                             return <Tab.Screen 
-                            
-                            name = {data.name}
+                            name = {data?.name}
+                            key={index}
                             component={data.component}
                             options={{
-                               unmountOnBlur: true,
-                               headerTitle: data.headerTitle,
-                               tabBarButton : () => null
-                            }}  
+                                unmountOnBlur: true,
+                                headerTitle: data.headerTitle,
+                                tabBarButton : () => null
+                            }    
+                            }
                             />
                         }
                         return <Tab.Screen 
+                        key={index}
                         name ={data.name}
                         component={data.component}
                         options={{

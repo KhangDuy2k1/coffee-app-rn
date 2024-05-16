@@ -1,16 +1,13 @@
 import { useState } from "react";
 import { TextInput, View, StyleSheet } from "react-native";
-import { setTextSearch } from "../../common/redux/slices";
+import { setTextSearch } from "../../../commons/redux/slices/product";
 import { UseDispatch, useDispatch } from "react-redux";
-// import { useAppDispatch } from "../../common/redux/type";
 import  Icon  from "react-native-vector-icons/Ionicons";
 export function Search() {
   const dispatch = useDispatch();
   const handleOnChangeText = (text: string) => {
     dispatch(setTextSearch(text));
   };
-  const [input, setInput] = useState("");
-
   return (
     <View style = {styles.containerSearch}>
       <TextInput

@@ -1,7 +1,7 @@
 import { View, StyleSheet } from "react-native";
 import { MainStack } from "./src/stack";
 import { Provider } from "react-redux";
-import { store } from "./src/components/common/redux/stores";
+import { store } from "./src/commons/redux/stores";
 
 export default function App() {
   return (

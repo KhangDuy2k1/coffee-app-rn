@@ -1,9 +1,9 @@
 import { StyleSheet ,View, Text, TextInput, Image, TouchableOpacity, Button, DevSettings } from "react-native"
 import RNRestart from 'react-native-restart';
-import { Constant } from "../common/constants/img-user.constant"
+import { Constant } from "../../commons/constants/img-user.constant"
 import { Input } from "../common/input"
 import { useState } from "react"
-import { getToken, saveToken } from "../common/helpers/asyncFunc"
+import { getToken, saveToken } from "../../commons/helpers/asyncFunc"
 import { login } from "../../apis/login"
 import { MainStack } from "../../stack"
 export const Login = ({navigation}) => {

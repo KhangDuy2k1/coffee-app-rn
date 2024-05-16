@@ -1,5 +1,5 @@
-import { Endpoins } from "../components/common/constants/endpoins.constant"
-import { postRequest } from "../components/common/helpers/axios";
+import { Endpoins } from "../commons/constants/endpoins.constant"
+import { postRequest } from "../commons/helpers/axios";
 export const login = async (data: any): Promise<any> => { 
   try {
     return await postRequest(Endpoins.LOGIN, data);

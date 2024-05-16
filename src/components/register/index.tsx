@@ -1,5 +1,5 @@
 import { View, Text, Image, StyleSheet, TextInput, Button } from "react-native"
-import { Constant } from "../common/constants/img-user.constant"
+import { Constant } from "../../commons/constants/img-user.constant"
 import { useState } from "react"
 import { register } from "../../apis/register"
 

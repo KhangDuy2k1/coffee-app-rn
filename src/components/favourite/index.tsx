@@ -1,84 +1,36 @@
 import { View, Text, FlatList, StyleSheet, SafeAreaView } from "react-native";
 import { ProductItem } from "../product/productItem";
-
+import { useEffect, useState } from "react";
+import { getCoffeeLiked } from "../../apis/get-coffee-liked";
+type ResType = {
+    mes: string,
+    coffeesLiked: any[],
+    success: boolean
+}
 export function Favourite(){ 
-    const product = [
-        {   
-            id: 1,
-            img: "https://product.hstatic.net/1000075078/product/1675355354_bg-tch-sua-da-no_4fbf208885ed464ab4b5e145336d42a2_large.jpg",
-            name: "trà đào cam xả"
-        },
-        {
-            id: 2,
-            
-            img: "https://product.hstatic.net/1000075078/product/1639377816_ca-phe-den-nong_2e0cb9233846467fbdcb76e99d2b7cac_large.jpg",
-            name: "cà phê sữa đá"
-        },
-        {
-            id: 3,
-    
-            img: "https://product.hstatic.net/1000075078/product/1709004168_vai-xuan-1_743d7966f0d54bccaa588389c17edb6c_large.jpg",
-            name: "sữa chua vải thiều"
-        },
-        {
-            id: 4,
-    
-            img: "https://product.hstatic.net/1000075078/product/1675355354_bg-tch-sua-da-no_4fbf208885ed464ab4b5e145336d42a2_large.jpg",
-            name: "trà sữa chân trâu"
-    
-        },
-        {
-            id: 5,
-    
-            img: "https://product.hstatic.net/1000075078/product/1675355354_bg-tch-sua-da-no_4fbf208885ed464ab4b5e145336d42a2_large.jpg",
-            name: "trà đào chanh đá"
-        },
-        {
-            id: 6,
-    
-            img: "https://product.hstatic.net/1000075078/product/1675355354_bg-tch-sua-da-no_4fbf208885ed464ab4b5e145336d42a2_large.jpg",
-            name: "trà đào chanh đá"
-        },
-        {
-            id: 7,
-    
-            img: "https://product.hstatic.net/1000075078/product/1675355354_bg-tch-sua-da-no_4fbf208885ed464ab4b5e145336d42a2_large.jpg",
-            name: "trà đào chanh đá"
-        },{
-            id: 8,
-    
-            img: "https://product.hstatic.net/1000075078/product/1675355354_bg-tch-sua-da-no_4fbf208885ed464ab4b5e145336d42a2_large.jpg",
-            name: "trà đào chanh đá"
-        },
-        {
-            id: 9,
-    
-            img: "https://product.hstatic.net/1000075078/product/1675355354_bg-tch-sua-da-no_4fbf208885ed464ab4b5e145336d42a2_large.jpg",
-            name: "trà đào chanh đá"
-        },{
-            id: 10,
-            img: "https://product.hstatic.net/1000075078/product/1675355354_bg-tch-sua-da-no_4fbf208885ed464ab4b5e145336d42a2_large.jpg",
-            name: "trà đào chanh đá"
-        },{
-            id: 11,
-    
-            img: "https://product.hstatic.net/1000075078/product/1675355354_bg-tch-sua-da-no_4fbf208885ed464ab4b5e145336d42a2_large.jpg",
-            name: "trà đào chanh đá"
+    const [listCoffeeLiked, setListCoffeeLiked] = useState<any[]>([]);
+    useEffect(() => { 
+        async function handleCoffeeLiked() {
+            try {
+                const res: ResType = await getCoffeeLiked();
+                setListCoffeeLiked(res.coffeesLiked);
+            } catch (error: any) {
+                alert(error.response.data.message)
+            }
         }
-    
-    ]
+        handleCoffeeLiked()
+    }, [])
     return (
         <SafeAreaView style = {styles.container}>
-            <View 
-            style = {styles.favouriteWrap}>
+            <View>
                 <Text 
                 style = {styles.favouriteTitle}
                 >Danh sách sản phẩm bạn đã thích</Text>
             </View>
             <FlatList
                 showsVerticalScrollIndicator = {false}
-                data={product}
-                keyExtractor={(item, index) => item.id.toString()}
+                data={listCoffeeLiked}
+                keyExtractor={(item, index) => item._id}
                 renderItem={({item}) => <ProductItem product={item} page = "favourite"/>}
             />
         </SafeAreaView>
@@ -86,19 +38,14 @@ export function Favourite(){
 }
 const styles = StyleSheet.create({
     container: {
+        height: "100%",
         backgroundColor: "#fff2cc",
         alignItems: 'center', 
         justifyContent: 'center',
-    },
-    favouriteWrap : {
-        backgroundColor: "#fff",
-        width: "100%", 
-        height: "6%",
     },
     favouriteTitle: {
         marginTop: 10, 
         fontSize: 20,
         fontWeight: "800"
     }
-
 });

@@ -1,4 +1,4 @@
-import { postRequest } from "../components/common/helpers/axios";
-import { Endpoins } from "../components/common/constants/endpoins.constant";
+import { postRequest } from "../commons/helpers/axios";
+import { Endpoins } from "../commons/constants/endpoins.constant";
 
 export const register = (data: any) => postRequest(Endpoins.REGISTER, data); 
