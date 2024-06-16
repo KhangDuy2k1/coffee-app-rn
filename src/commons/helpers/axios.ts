@@ -26,6 +26,7 @@ instance.interceptors.response.use(async function(response){
 
 export const getRequest = (url: string) => instance.get(url)
  .then((response) => response.data)
-export const postRequest = async (url: string, data: any) => instance.post(url, data).then((response) => response.data);
+export const postRequest = async (url: string, data?: any) => instance.post(url, data).then((response) => response.data);
 export const pathRequest = (url: string, data?: any) => instance.patch(url, data);
+export const putRequest = (url: string, data?: any) => instance.put(url, data).then((response) => response.data )
     

@@ -22,7 +22,6 @@ const orderSlice = createSlice({
   }
 })
 export const { 
-    setMethod,
     setInfoOrder,
     setVisibleSelectMethod,
     setIdAddress

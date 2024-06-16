@@ -23,10 +23,15 @@ export const Login = ({navigation}) => {
     }
 
     const handleLogin = async() => { 
-        const response: any = await login(info);
-        const accessToken: string = response["accessToken"];
-        await saveToken(accessToken);   
-        DevSettings.reload();
+        try {
+            const response: any = await login(info);
+            const accessToken: string = response["accessToken"];
+            await saveToken(accessToken);
+            DevSettings.reload();
+        } catch (error: any) {
+            alert(error.response.data.message)
+        }
+       
     }
 
     const handleNextToRegister = async() => {

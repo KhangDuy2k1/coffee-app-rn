@@ -10,4 +10,12 @@ export enum Endpoins {
     ORDER = "order/order-coffee",
     ADD_ADDRESS = "address/add-address",
     GET_ALL_ADDRESS = "address/all-address",
+    GET_USER_LOGIN = "user/user-login",
+    GET_WALLET = "wallet/get-wallet",
+    CREATE_WALLET = "wallet/create-wallet",
+    TOP_UP_WALLET = "wallet/top-up",
+    GET_LIST_ORDER = "order/all-orders-user",
+    GET_ORDER_BY_ID = "order/get-order-id",
+    REVIEW = "review/review-coffee",
+    RECEIVED_ORDER = "order/received"
 }

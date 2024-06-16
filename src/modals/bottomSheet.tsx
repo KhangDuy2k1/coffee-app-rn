@@ -1,30 +1,31 @@
 import { BottomSheet } from "@rneui/themed";
 import { View, Text, TextInput, TouchableOpacity } from "react-native";
 import { useSelector, useDispatch } from "react-redux";
-import { selectOrder, setMethod, setVisibleSelectMethod } from "../commons/redux/slices/order";
+import { selectOrder, setVisibleSelectMethod } from "../commons/redux/slices/order";
 import IconEntypo from "react-native-vector-icons/Entypo";
 import IconFeather from "react-native-vector-icons/Feather"
 import { useNavigation } from "@react-navigation/native";
-import { orderApi } from "../apis/order-directly";
+import { orderApi } from "../apis/order";
 export const BottomSheetSelect = ({dataOrder}) => { 
     const navigations = useNavigation();
     const dispatch = useDispatch();
     const order = useSelector(selectOrder);
+    const data: {
+        coffeeItem_id: any,
+        id_address: any,
+        quantity: number,
+        total: number
+    } = {
+        coffeeItem_id: dataOrder.product._id,
+        id_address: order.idAddress,
+        quantity: dataOrder.quantity,
+        total: dataOrder.product.price * dataOrder.quantity
+    }
     const handleSelectPayDirectly = async() => {
-        const data: {
-            coffeeItem_id: any,
-            id_address: any,
-            quantity: number,
-            total: number
-        } = {
-            coffeeItem_id: dataOrder.product._id,
-            id_address: order.idAddress,
-            quantity: dataOrder.quantity,
-            total: dataOrder.product.price * dataOrder.quantity
-        }
+        
         try {
-           const res =  await orderApi(data, 0); 
-           alert("Đặt hàng thành công")
+           await orderApi(data, 0); 
+           alert("Đặt hàng thành công");
         } catch (error: any) {
            alert(
            error.response.data.message === "bạn chưa nhập số lượng" 
@@ -32,10 +33,16 @@ export const BottomSheetSelect = ({dataOrder}) => {
            : "bạn chưa có số điện thoại và địa chỉ nhận hàng"
            );
         }
-        dispatch(setVisibleSelectMethod(false))
+        dispatch(setVisibleSelectMethod(false));
     }
 
-    const handleSelectPayOnline = () => {
+    const handleSelectPayOnline = async() => {
+        try {
+            const res = await orderApi(data, 1)
+            alert(res.mes);
+        } catch (error: any) {
+            alert(error.response?.data?.message);
+        }
         dispatch(setVisibleSelectMethod(false))
     }
 

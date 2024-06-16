@@ -15,6 +15,7 @@ import IonIcon from "react-native-vector-icons/Ionicons"
 import IconOcticons from "react-native-vector-icons/Octicons"
 import { AddressListScreen } from "./screens/address";
 import { View, Text } from "react-native";
+import { OrderDetailScreen } from "./screens/orderDetail";
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
 
@@ -67,6 +68,11 @@ const dataTab = [
         name: "product",
         component: ProductStack,
         headerTitle: "Chi tiết sản phẩm",
+    },
+    {
+        name: "orderDetail",
+        component: OrderDetailScreen,
+        headerTitle: "Chi tiết đơn hàng",
     }, 
     {
         name: "order",
@@ -98,7 +104,7 @@ const HomeTab = () => {
             >
                 {
                     dataTab.map((data: any, index) => {
-                        if(data.name === "product" || data.name === "addressList" ) {
+                        if(data.name === "product" || data.name === "orderDetail" ) {
                             return <Tab.Screen 
                             name = {data?.name}
                             key={index}
@@ -111,7 +117,7 @@ const HomeTab = () => {
                             }
                             />
                         }
-                        return <Tab.Screen 
+                        return <Tab.Screen
                         key={index}
                         name ={data.name}
                         component={data.component}

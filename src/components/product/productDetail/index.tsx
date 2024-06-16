@@ -10,36 +10,14 @@ import {
 from "react-native";
 import IconAnt from "react-native-vector-icons/AntDesign"
 import { BottomSheetSelect } from "../../../modals/bottomSheet";
-import { orderCoffee } from "../../../apis/order";
 import { useSelector, useDispatch } from "react-redux";
 import { selectOrder, setVisibleSelectMethod } from "../../../commons/redux/slices/order";
-
-function formatMoney(amount: number) {
-    if(amount.toString().length < 4) {
-        return amount.toString()
-    }
-    const arrayResult = [];
-    let str: string[] = amount.toString().split("");
-    let length =str.length
-    let pointer = 0;
-    let j = 1
-    for(let i = length; i >=0; i--){
-        if(3*j+1 === pointer){
-            arrayResult.push(".")
-            j++
-        }
-        arrayResult.push(str[i])
-        pointer++
-    }
-    return arrayResult.reverse().join("")
-}
-
+import { formatMoney } from "../../../commons/helpers/func";
 
 export const ProductDetail = ({product}) => { 
     const [inputQuantity, setInputQuantity] = useState<number>(0)
     const dispatch = useDispatch();
     const order = useSelector(selectOrder)
-    console.log(order.idAddress, "=============");
     function decrease() {
         setInputQuantity((data) => data === 0 ? 0 : --data)
     }
@@ -62,7 +40,6 @@ export const ProductDetail = ({product}) => {
                     </Text>
                     <View> 
                         <View style = {styles.containerInfo}>
-
                             <View style = {styles.starsContainer}>
                                 <Text style = {styles.starsNumberText}>
                                     {product.stars} / 5
@@ -73,7 +50,6 @@ export const ProductDetail = ({product}) => {
                             <Text style = {styles.price}>
                                 {formatMoney(product.price)} VNĐ
                             </Text>
-
                         </View> 
                     </View>
                    

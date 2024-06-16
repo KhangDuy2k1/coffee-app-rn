@@ -1,11 +1,8 @@
 import { View, Text } from "react-native"
+import { Order } from "../../components/order"
 
 export const OrderScreen = () => {
     return (
-        <View>
-            <Text>
-                This is a OrderScreen
-            </Text>
-        </View>
+        <Order/>
     )
 }

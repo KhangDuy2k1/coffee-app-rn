@@ -1,9 +1,9 @@
-import { View, ScrollView, StyleSheet, FlatList, SafeAreaView } from "react-native";
+import { StyleSheet, FlatList, SafeAreaView } from "react-native";
 import { useSelector } from "react-redux";
 import { ProductItem } from "../../product/productItem";
 import { useEffect, useState } from "react";
 import { getAllProducts } from "../../../apis/product";
-import { getInfoUserLogin } from "../../../apis/get-info-user-login";
+import { getInfoUserLogin } from "../../../apis/info-user-login";
 export const ProductList = () => { 
     const [listProduct, setListProduct] = useState<any[]>([]);
     const [listSearch, setListSearch] = useState<any[]>([])
